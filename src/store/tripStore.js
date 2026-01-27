@@ -1,26 +1,94 @@
 // src/store/tripStore.js
 
-import { create } from 'zustand'
+import { create } from 'zustand';
 
-const useTripStore = create(set => ({
+const useTripStore = create((set) => ({
   trip: {
-    status: 'idle',
-    pickup: null,
-    destination: null,
+    status: 'idle', // idle → requested → enroute → completed
+    pickup: null,   // { lat, lng, address } or string
+    dropoff: null,
+    preferences: {
+      communication: 'any', // "any" | "chatty" | "moderate" | "quiet"
+      music: 'any',         // "any" | "off" | "low" | "moderate" | "high"
+      ac: 'any',            // "any" | "on" | "off"
+      note: '',
+    },
+    eta: null,
+  },
+
+  // Global passenger defaults (optional — can be used to prefill)
+  passenger: {
+    defaultPreferences: {
+      communication: 'any',
+      music: 'low',
+      ac: 'on',
+      note: '',
+    },
   },
 
   driver: {
-    location: { lat: 6.5200, lng: 3.3700 },
+    intent: 'on shift', // "on shift" | "short trips only" | "going home"
   },
 
-  startTrip: () =>
-    set({
-      trip: {
-        status: 'requested',
-        pickup: [6.5244, 3.3792],
-        destination: [6.4654, 3.4064],
-      },
-    }),
-}))
+  startTrip: (pickup, dropoff) => set((state) => ({
+    trip: {
+      ...state.trip,
+      status: 'requested',
+      pickup,
+      dropoff,
+      // preferences are already set by user before calling startTrip
+    },
+  })),
 
-export default useTripStore
+  updateTripStatus: (status) => set((state) => ({
+    trip: {
+      ...state.trip,
+      status,
+    },
+  })),
+
+  setTripEta: (eta) => set((state) => ({
+    trip: {
+      ...state.trip,
+      eta,
+    },
+  })),
+
+  updateTripPreferences: (prefs) => set((state) => ({
+    trip: {
+      ...state.trip,
+      preferences: {
+        ...state.trip.preferences,
+        ...prefs,
+      },
+    },
+  })),
+
+  resetTrip: () => set(() => ({
+    trip: {
+      status: 'idle',
+      pickup: null,
+      dropoff: null,
+      preferences: {
+        communication: 'any',
+        music: 'any',
+        ac: 'any',
+        note: '',
+      },
+      eta: null,
+    },
+  })),
+
+  endTrip: () => set((state) => ({
+    trip: {
+      ...state.trip,
+      status: 'completed',
+    },
+  })),
+
+  setDriverMode: (intent) => set(() => ({
+    driver: { intent },
+  })),
+}));
+
+export default useTripStore;
