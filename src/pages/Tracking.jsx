@@ -5,7 +5,7 @@ import PreferencesModal from '../components/PreferencesModal';
 // Added 'Mic' and 'Navigation' for the UI
 import { MapPin, SlidersHorizontal, Mic, Navigation, MousePointer2 } from 'lucide-react';
 
-function Trip() {
+function Tracking() {
   const trip = useTripStore((state) => state.trip);
   const startTrip = useTripStore((state) => state.startTrip);
 
@@ -162,4 +162,4 @@ function Trip() {
   );
 }
 
-export default Trip;
+export default Tracking;

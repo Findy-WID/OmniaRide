@@ -48,7 +48,7 @@ export default function LandingPage() {
           <div className="mt-8 flex gap-4">
             <button 
               className="px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700"
-              onClick={() => nav('/trip')}
+              onClick={() => nav('/driver-onboarding')}
             >
               Get Started
             </button>
