@@ -1,40 +1,40 @@
 import { useState, useEffect } from 'react';
 import useTripStore from '../store/tripStore';
 import MapView from '../components/MapView';
-import PreferencesModal from '../components/PreferencesModal';
+import SafetyModal from '../components/SafetyModal';
 // Mic and 'Navigation' for the UI
-import { MapPin, SlidersHorizontal, Mic, Navigation, MousePointer2 } from 'lucide-react';
+// import { MapPin, SlidersHorizontal, Mic, Navigation, MousePointer2 } from 'lucide-react';
 
 function Tracking() {
   const trip = useTripStore((state) => state.trip);
   const startTrip = useTripStore((state) => state.startTrip);
 
-  const [showPrefs, setShowPrefs] = useState(false);
-  const [pickUpInput, setPickUpInput] = useState("");
-  const [destInput, setDestInput] = useState("");
+  // const [showPrefs, setShowPrefs] = useState(false);
+  // const [pickUpInput, setPickUpInput] = useState("");
+  // const [destInput, setDestInput] = useState("");
   
   // States to control dropdown visibility
-  const [activeInput, setActiveInput] = useState(null); // 'pickup' or 'destination'
+  // const [activeInput, setActiveInput] = useState(null); // 'pickup' or 'destination'
 
-  const isIdle = trip.status === 'idle';
+  // const isIdle = trip.status === 'idle';
 
-  const handlePickUpInput = (e) => setPickUpInput(e.target.value);
-  const handleDestInput = (e) => setDestInput(e.target.value);
+  // const handlePickUpInput = (e) => setPickUpInput(e.target.value);
+  // const handleDestInput = (e) => setDestInput(e.target.value);
 
-  // --- VOICE LOGIC ---
-  const startListening = (target) => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) return alert("Browser does not support voice recognition.");
+  // // --- VOICE LOGIC ---
+  // const startListening = (target) => {
+  //   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  //   if (!SpeechRecognition) return alert("Browser does not support voice recognition.");
 
-    const recognition = new SpeechRecognition();
-    recognition.start();
+  //   const recognition = new SpeechRecognition();
+  //   recognition.start();
 
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      if (target === 'pickup') setPickUpInput(transcript);
-      else setDestInput(transcript);
-    };
-  };
+  //   recognition.onresult = (event) => {
+  //     const transcript = event.results[0][0].transcript;
+  //     if (target === 'pickup') setPickUpInput(transcript);
+  //     else setDestInput(transcript);
+  //   };
+  // };
 
   // Hardcoded state for demo
   const [isDeviated, setIsDeviated] = useState(false);
@@ -143,7 +143,7 @@ function Tracking() {
             
             <button 
               className="w-full py-4 bg-white border-2 border-slate-100 text-slate-600 font-bold rounded-xl hover:bg-slate-50 transition"
-              onClick={setIsModalOpen(true)}
+              onClick={() => setIsModalOpen(true)}
             >
               🛡️ Safety Toolkit
             </button>
@@ -156,6 +156,12 @@ function Tracking() {
           <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Trip ID: CR-990-221-X</p>
         </div>
       </div>
+
+      {/* 3. Render the modal component here */}
+      <SafetyModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
     </div>
   );
 }
