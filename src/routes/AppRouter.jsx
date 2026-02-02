@@ -17,7 +17,7 @@ export default function AppRouter() {
       <Route path="/history" element={<History />} /> */}
 
       <Route path="/" element={<LandingPage />} />
-      <Route path="/track/tripId:" element={<Tracking />} />
+      <Route path="/track/:tripId" element={<Tracking />} />
       <Route path="/driver-onboarding" element={<Onboarding />} />
       <Route path="*" element={<Navigate to="/" />} />
 
